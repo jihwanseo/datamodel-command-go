@@ -14,9 +14,9 @@ It will get you a easy expression of your data to send to micro service. And Als
 ## Installation ##
 Enter as follows in linux command line
 ```
-go get github.com/mgjeong/datamodel-command-go
-cd $GOPATH/src/github.com/mgjeong/datamodel-command-go/formatter
-go install
+$ go get github.com/mgjeong/datamodel-command-go
+$ cd $GOPATH/src/github.com/mgjeong/datamodel-command-go/formatter
+$ go install
 ```
 As a result, `github.com/mgjeong/datamodel-command-go/formatter.a` is generated in `$GOPATH/pkg/[$GOOS_$GOARCH]`
 
