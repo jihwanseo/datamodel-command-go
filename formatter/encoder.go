@@ -15,7 +15,7 @@
  *
  *******************************************************************************/
 
-// Package Encoder implements encode function for EdgeData, EdgeElement, EdgeAttribute
+// formatter package provides encode function for EdgeData, EdgeElement, EdgeAttribute
 package formatter
 
 import (

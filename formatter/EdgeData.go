@@ -15,7 +15,7 @@
  *
  *******************************************************************************/
 
-// Package EdgeData implements Struct type and method of EdgeData
+// formatter package provides Struct type and method of EdgeData
 package formatter
 
 import (
