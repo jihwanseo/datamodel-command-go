@@ -15,7 +15,7 @@
  *
  *******************************************************************************/
 
-// Package decoder implements decode function for EdgeData, EdgeElement, EdgeAttribute
+// formatter package provides decode function for EdgeData, EdgeElement, EdgeAttribute
 package formatter
 
 import (

@@ -15,7 +15,7 @@
  *
  *******************************************************************************/
 
-// Package EdgeElement implements Struct type and method of EdgeElement
+// formatter package provides Struct type and method of EdgeElement
 package formatter
 
 import (

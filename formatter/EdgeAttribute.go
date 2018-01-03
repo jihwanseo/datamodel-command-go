@@ -15,7 +15,7 @@
  *
  *******************************************************************************/
 
-// Package EdgeAttribute implements Struct type and method of EdgeAttribute
+// formatter package provides Struct type and method of EdgeAttribute
 package formatter
 
 import (

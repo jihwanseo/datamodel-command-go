@@ -1,0 +1,507 @@
+use 'godoc cmd/formatter' for documentation on the formatter command 
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "formatter"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+formatter package provides Struct type and method of EdgeAttribute
+</p>
+<p>
+formatter package provides Struct type and method of EdgeData
+</p>
+<p>
+formatter package provides Struct type and method of EdgeElement
+</p>
+<p>
+formatter package provides decode function for EdgeData, EdgeElement, EdgeAttribute
+</p>
+<p>
+formatter package provides encode function for EdgeData, EdgeElement, EdgeAttribute
+</p>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="#EncodeEdgeAttributeToJsonString">func EncodeEdgeAttributeToJsonString(edgeAttribute *EdgeAttribute) (string, error)</a></dd>
+			
+				
+				<dd><a href="#EncodeEdgeDataToJsonString">func EncodeEdgeDataToJsonString(edgeData *EdgeData) (string, error)</a></dd>
+			
+				
+				<dd><a href="#EncodeEdgeElementToJsonString">func EncodeEdgeElementToJsonString(edgeElement *EdgeElement) (string, error)</a></dd>
+			
+			
+				
+				<dd><a href="#EdgeAttribute">type EdgeAttribute</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#DecodeJsonStringToEdgeAttribute">func DecodeJsonStringToEdgeAttribute(jsonString *string) (EdgeAttribute, error)</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#EdgeAttribute.CompareEdgeAttribute">func (attr *EdgeAttribute) CompareEdgeAttribute(edgeAttr *EdgeAttribute) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#EdgeAttribute.ConvertToEdgeAttribute">func (attr *EdgeAttribute) ConvertToEdgeAttribute() error</a></dd>
+				
+			
+				
+				<dd><a href="#EdgeData">type EdgeData</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#DecodeJsonStringToEdgeData">func DecodeJsonStringToEdgeData(jsonString *string) (EdgeData, error)</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#EdgeData.CompareEdgeData">func (data *EdgeData) CompareEdgeData(edgeData *EdgeData) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#EdgeData.ConvertToEdgeData">func (data *EdgeData) ConvertToEdgeData() error</a></dd>
+				
+			
+				
+				<dd><a href="#EdgeElement">type EdgeElement</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#DecodeJsonStringToEdgeElement">func DecodeJsonStringToEdgeElement(jsonString *string) (EdgeElement, error)</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#EdgeElement.CompareEdgeElement">func (elem *EdgeElement) CompareEdgeElement(edgeElement *EdgeElement) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#EdgeElement.ConvertToEdgeElement">func (elem *EdgeElement) ConvertToEdgeElement() error</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/formatter/EdgeAttribute.go">EdgeAttribute.go</a>
+			
+				<a href="/src/formatter/EdgeData.go">EdgeData.go</a>
+			
+				<a href="/src/formatter/EdgeElement.go">EdgeElement.go</a>
+			
+				<a href="/src/formatter/TestData.go">TestData.go</a>
+			
+				<a href="/src/formatter/decoder.go">decoder.go</a>
+			
+				<a href="/src/formatter/encoder.go">encoder.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+			
+			
+			<h2 id="EncodeEdgeAttributeToJsonString">func <a href="/src/target/encoder.go?s=1218:1300#L24">EncodeEdgeAttributeToJsonString</a>
+				<a class="permalink" href="#EncodeEdgeAttributeToJsonString">&#xb6;</a>
+			</h2>
+			<pre>func EncodeEdgeAttributeToJsonString(edgeAttribute *<a href="#EdgeAttribute">EdgeAttribute</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Encode EdgeAttribute To JsonString
+</p>
+<p>
+@param edgeAttribute EdgeAttribute to be encoded
+@param jsonString    result of encoding
+</p>
+<p>
+@return JsonString and nil if it is succeed to encode EdgeAttribute to JsonString, otherwise error
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodeEdgeDataToJsonString">func <a href="/src/target/encoder.go?s=2373:2440#L66">EncodeEdgeDataToJsonString</a>
+				<a class="permalink" href="#EncodeEdgeDataToJsonString">&#xb6;</a>
+			</h2>
+			<pre>func EncodeEdgeDataToJsonString(edgeData *<a href="#EdgeData">EdgeData</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Encode EdgeData To JsonString
+</p>
+<p>
+@param edgeData   EdgeData to be encoded
+@param jsonString result of encoding
+</p>
+<p>
+@return JsonString and nil if it is succeed to encode EdgeData to JsonString, otherwise error
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="EncodeEdgeElementToJsonString">func <a href="/src/target/encoder.go?s=1808:1884#L45">EncodeEdgeElementToJsonString</a>
+				<a class="permalink" href="#EncodeEdgeElementToJsonString">&#xb6;</a>
+			</h2>
+			<pre>func EncodeEdgeElementToJsonString(edgeElement *<a href="#EdgeElement">EdgeElement</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+Encode EdgeElement To JsonString
+</p>
+<p>
+@param edgeElement EdgeElement to be encoded
+@param jsonString  result of encoding
+</p>
+<p>
+@return JsonString and nil if it is succeed to encode EdgeElement to JsonString, otherwise error
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="EdgeAttribute">type <a href="/src/target/EdgeAttribute.go?s=960:1102#L17">EdgeAttribute</a>
+				<a class="permalink" href="#EdgeAttribute">&#xb6;</a>
+			</h2>
+			<p>
+EdgeAttribute has Value and information of Value
+</p>
+
+			<pre>type EdgeAttribute struct {
+<span id="EdgeAttribute.Name"></span>    Name     <a href="/pkg/builtin/#string">string</a>      `json:&#34;name&#34;`
+<span id="EdgeAttribute.DataType"></span>    DataType <a href="/pkg/builtin/#string">string</a>      `json:&#34;dataType&#34;`
+<span id="EdgeAttribute.Value"></span>    Value    interface{} `json:&#34;value&#34;`
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="DecodeJsonStringToEdgeAttribute">func <a href="/src/target/decoder.go?s=1228:1307#L24">DecodeJsonStringToEdgeAttribute</a>
+					<a class="permalink" href="#DecodeJsonStringToEdgeAttribute">&#xb6;</a>
+				</h3>
+				<pre>func DecodeJsonStringToEdgeAttribute(jsonString *<a href="/pkg/builtin/#string">string</a>) (<a href="#EdgeAttribute">EdgeAttribute</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Decode JsonString To EdgeAttribute
+</p>
+<p>
+@param jsonString    Json String to be decoded
+@param edgeAttribute result of decoding
+</p>
+<p>
+@return EdgeAttribute and nil if it is succeed to decode JsonString to EdgeAttribute, otherwise nil
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="EdgeAttribute.CompareEdgeAttribute">func (*EdgeAttribute) <a href="/src/target/EdgeAttribute.go?s=4202:4280#L141">CompareEdgeAttribute</a>
+					<a class="permalink" href="#EdgeAttribute.CompareEdgeAttribute">&#xb6;</a>
+				</h3>
+				<pre>func (attr *<a href="#EdgeAttribute">EdgeAttribute</a>) CompareEdgeAttribute(edgeAttr *<a href="#EdgeAttribute">EdgeAttribute</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+Compare two EdgeAttribute
+</p>
+<p>
+@param edgeAttr pointer of EdgeAttribute
+</p>
+<p>
+@return nil if two EdgeAttribute are the equal, otherwise error
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="EdgeAttribute.ConvertToEdgeAttribute">func (*EdgeAttribute) <a href="/src/target/EdgeAttribute.go?s=3616:3673#L116">ConvertToEdgeAttribute</a>
+					<a class="permalink" href="#EdgeAttribute.ConvertToEdgeAttribute">&#xb6;</a>
+				</h3>
+				<pre>func (attr *<a href="#EdgeAttribute">EdgeAttribute</a>) ConvertToEdgeAttribute() <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+convert all the wrong type of value in EdgeAttribute
+</p>
+<p>
+@return nil if it is success to convert type of value, otherwise error
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="EdgeData">type <a href="/src/target/EdgeData.go?s=956:1122#L16">EdgeData</a>
+				<a class="permalink" href="#EdgeData">&#xb6;</a>
+			</h2>
+			<p>
+EdgeData has version and title of EdgeData and list of EdgeElement
+</p>
+
+			<pre>type EdgeData struct {
+<span id="EdgeData.Version"></span>    Version      <a href="/pkg/builtin/#string">string</a>        `json:&#34;version&#34;`
+<span id="EdgeData.DataTitle"></span>    DataTitle    <a href="/pkg/builtin/#string">string</a>        `json:&#34;dataTitle&#34;`
+<span id="EdgeData.EdgeElements"></span>    EdgeElements []<a href="#EdgeElement">EdgeElement</a> `json:&#34;edgeElements&#34;`
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="DecodeJsonStringToEdgeData">func <a href="/src/target/decoder.go?s=2345:2414#L60">DecodeJsonStringToEdgeData</a>
+					<a class="permalink" href="#DecodeJsonStringToEdgeData">&#xb6;</a>
+				</h3>
+				<pre>func DecodeJsonStringToEdgeData(jsonString *<a href="/pkg/builtin/#string">string</a>) (<a href="#EdgeData">EdgeData</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Decode JsonString To EdgeData
+</p>
+<p>
+@param jsonString Json String to be decoded
+@param edgeData   result of decoding
+</p>
+<p>
+@return EdgeData and nil if it is succeed to decode JsonString to EdgeData, otherwise error
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="EdgeData.CompareEdgeData">func (*EdgeData) <a href="/src/target/EdgeData.go?s=2247:2310#L60">CompareEdgeData</a>
+					<a class="permalink" href="#EdgeData.CompareEdgeData">&#xb6;</a>
+				</h3>
+				<pre>func (data *<a href="#EdgeData">EdgeData</a>) CompareEdgeData(edgeData *<a href="#EdgeData">EdgeData</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+Compare two EdgeData
+</p>
+<p>
+@param edgeData pointer of EdgeData
+</p>
+<p>
+@return nil if two EdgeData are the equal, otherwise error
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="EdgeData.ConvertToEdgeData">func (*EdgeData) <a href="/src/target/EdgeData.go?s=1774:1821#L41">ConvertToEdgeData</a>
+					<a class="permalink" href="#EdgeData.ConvertToEdgeData">&#xb6;</a>
+				</h3>
+				<pre>func (data *<a href="#EdgeData">EdgeData</a>) ConvertToEdgeData() <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+convert all the wrong type of value in EdgeData
+</p>
+<p>
+@return true if it is success to convert type of value, otherwise false
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="EdgeElement">type <a href="/src/target/EdgeElement.go?s=955:1092#L16">EdgeElement</a>
+				<a class="permalink" href="#EdgeElement">&#xb6;</a>
+			</h2>
+			<p>
+EdgeElement has title of EdgeElement and list of EdgeAttribute
+</p>
+
+			<pre>type EdgeElement struct {
+<span id="EdgeElement.ElementTitle"></span>    ElementTitle   <a href="/pkg/builtin/#string">string</a>          `json:&#34;elementTitle&#34;`
+<span id="EdgeElement.EdgeAttributes"></span>    EdgeAttributes []<a href="#EdgeAttribute">EdgeAttribute</a> `json:&#34;edgeAttributes&#34;`
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="DecodeJsonStringToEdgeElement">func <a href="/src/target/decoder.go?s=1801:1876#L42">DecodeJsonStringToEdgeElement</a>
+					<a class="permalink" href="#DecodeJsonStringToEdgeElement">&#xb6;</a>
+				</h3>
+				<pre>func DecodeJsonStringToEdgeElement(jsonString *<a href="/pkg/builtin/#string">string</a>) (<a href="#EdgeElement">EdgeElement</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Decode JsonString To EdgeElement
+</p>
+<p>
+@param jsonString  Json String to be decoded
+@param edgeElement result of decoding
+</p>
+<p>
+@return EdgeElement and nil if it is succeed to decode JsonString to EdgeElement, otherwise error
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="EdgeElement.CompareEdgeElement">func (*EdgeElement) <a href="/src/target/EdgeElement.go?s=2260:2335#L59">CompareEdgeElement</a>
+					<a class="permalink" href="#EdgeElement.CompareEdgeElement">&#xb6;</a>
+				</h3>
+				<pre>func (elem *<a href="#EdgeElement">EdgeElement</a>) CompareEdgeElement(edgeElement *<a href="#EdgeElement">EdgeElement</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+Compare two EdgeElement
+</p>
+<p>
+@param edgeElement pointer of EdgeElement
+</p>
+<p>
+@return nil if two EdgeElement are the equal, otherwise error
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="EdgeElement.ConvertToEdgeElement">func (*EdgeElement) <a href="/src/target/EdgeElement.go?s=1773:1826#L40">ConvertToEdgeElement</a>
+					<a class="permalink" href="#EdgeElement.ConvertToEdgeElement">&#xb6;</a>
+				</h3>
+				<pre>func (elem *<a href="#EdgeElement">EdgeElement</a>) ConvertToEdgeElement() <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+convert all the wrong type of value in EdgeElement
+</p>
+<p>
+@return nil if it is success to convert type of value, otherwise error
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
