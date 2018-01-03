@@ -14,17 +14,17 @@ It will get you a easy expression of your data to send to micro service. And Als
 ## Installation ##
 Enter as follows in linux command line
 ```
-$ cd $GOPATH/src
-$ git clone https://github.sec.samsung.net/RS7-EdgeComputing/datamodel-command-go.git
-$ GOOS=linux go install ./datamodel-command-go/formatter/
+go get github.com/mgjeong/datamodel-command-go
+cd $GOPATH/src/github.com/mgjeong/datamodel-command-go/formatter
+go install
 ```
-As a result, `datamodel-command-go/formatter.a` is generated in `$GOPATH/pkg/[$GOOS_$GOARCH]`
+As a result, `github.com/mgjeong/datamodel-command-go/formatter.a` is generated in `$GOPATH/pkg/[$GOOS_$GOARCH]`
 
 ## How to Use ##
 
 To use the datamodel-command-go libraries you first need to import the libraries into your project :
 ```
-import "datamodel-command-go/formatter"
+import "github.com/mgjeong/datamodel-command-go/formatter"
 ```
 You can Use data models(EdgeAttribute, EdgeElement, EdgeData) as below :
 ```
