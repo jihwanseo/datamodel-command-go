@@ -1,0 +1,644 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">formatter/EdgeAttribute.go (92.1%)</option>
+				
+				<option value="file1">formatter/EdgeData.go (95.7%)</option>
+				
+				<option value="file2">formatter/EdgeElement.go (100.0%)</option>
+				
+				<option value="file3">formatter/decoder.go (100.0%)</option>
+				
+				<option value="file4">formatter/encoder.go (100.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">/*******************************************************************************
+ * Copyright 2017 Samsung Electronics All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *******************************************************************************/
+
+// formatter package provides Struct type and method of EdgeAttribute
+package formatter
+
+import (
+        "encoding/json"
+        "errors"
+)
+
+// EdgeAttribute has Value and information of Value
+type EdgeAttribute struct {
+        Name     string      `json:"name"`
+        DataType string      `json:"dataType"`
+        Value    interface{} `json:"value"`
+}
+
+// create Error Messgae : "Invalid EdgeAttribute - [name of EdgeAttribute]"
+//
+// @return created Error
+func (attr *EdgeAttribute) errInvalidEdgeAttribute() error <span class="cov8" title="1">{
+        return errors.New("Invalid EdgeAttribute - " + attr.Name)
+}</span>
+
+// create Error Messgae : "[name of EdgeAttribute] - [name of EdgeAttribute] do not match"
+//
+// @param attrB pointer of EdgeAttribute
+//
+// @return created Error
+func (attrA *EdgeAttribute) errNotMatchEdgeAttribute(attrB *EdgeAttribute) error <span class="cov8" title="1">{
+        return errors.New(attrA.Name + " - " + attrB.Name + " do not match")
+}</span>
+
+// convert type of value to string
+//
+// @return true if type of value is string, otherwise false
+func (attr *EdgeAttribute) convertToString() error <span class="cov8" title="1">{
+        switch attr.Value.(type) </span>{
+        case string:<span class="cov8" title="1">
+                return nil</span>
+        }
+        <span class="cov8" title="1">return attr.errInvalidEdgeAttribute()</span>
+}
+
+// convert type of value to int
+//
+// @return nil if it is success to convert type of value, otherwise error
+func (attr *EdgeAttribute) convertToInt() error <span class="cov8" title="1">{
+        switch attr.Value.(type) </span>{
+        case int:<span class="cov8" title="1">
+                return nil</span>
+        case float64:<span class="cov8" title="1">
+                floatValue := attr.Value.(float64)
+                if floatValue == float64(int(floatValue)) </span><span class="cov8" title="1">{
+                        attr.Value = int(floatValue)
+                        return nil
+                }</span>
+        }
+        <span class="cov8" title="1">return attr.errInvalidEdgeAttribute()</span>
+}
+
+// convert type of value to float64
+//
+// @return nil if it is success to convert type of value, otherwise error
+func (attr *EdgeAttribute) convertToFloat64() error <span class="cov8" title="1">{
+        switch attr.Value.(type) </span>{
+        case float64:<span class="cov8" title="1">
+                return nil</span>
+        }
+        <span class="cov8" title="1">return attr.errInvalidEdgeAttribute()</span>
+}
+
+// convert type of value to list of EdgeAttribute
+//
+// @return nil if it is success to convert type of value, otherwise error
+func (attr *EdgeAttribute) convertToEdgeAttributeList() error <span class="cov8" title="1">{
+        switch attr.Value.(type) </span>{
+        case []EdgeAttribute:<span class="cov8" title="1">
+                for _, edgeAttr := range attr.Value.([]EdgeAttribute) </span><span class="cov8" title="1">{
+                        err := edgeAttr.ConvertToEdgeAttribute()
+                        if err != nil </span><span class="cov8" title="1">{
+                                return err
+                        }</span>
+                }
+                <span class="cov8" title="1">return nil</span>
+        case []interface{}:<span class="cov8" title="1">
+                jsonBytes, err := json.Marshal(attr.Value)
+                if err != nil </span><span class="cov0" title="0">{
+                        return attr.errInvalidEdgeAttribute()
+                }</span>
+                <span class="cov8" title="1">var edgeAttributeList []EdgeAttribute
+                err = json.Unmarshal(jsonBytes, &amp;edgeAttributeList)
+                if err != nil </span><span class="cov0" title="0">{
+                        return attr.errInvalidEdgeAttribute()
+                }</span>
+                <span class="cov8" title="1">for _, edgeAttr := range edgeAttributeList </span><span class="cov8" title="1">{
+                        err = edgeAttr.ConvertToEdgeAttribute()
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+                <span class="cov8" title="1">attr.Value = edgeAttributeList
+                return nil</span>
+        }
+        <span class="cov8" title="1">return attr.errInvalidEdgeAttribute()</span>
+}
+
+// convert all the wrong type of value in EdgeAttribute
+//
+// @return nil if it is success to convert type of value, otherwise error
+func (attr *EdgeAttribute) ConvertToEdgeAttribute() error <span class="cov8" title="1">{
+        if attr.Name == "" </span><span class="cov8" title="1">{
+                return attr.errInvalidEdgeAttribute()
+        }</span>
+        <span class="cov8" title="1">var err error = nil
+        switch attr.DataType </span>{
+        case "string":<span class="cov8" title="1">
+                err = attr.convertToString()</span>
+        case "float64":<span class="cov8" title="1">
+                err = attr.convertToFloat64()</span>
+        case "integer":<span class="cov8" title="1">
+                err = attr.convertToInt()</span>
+        case "attributes":<span class="cov8" title="1">
+                err = attr.convertToEdgeAttributeList()</span>
+        default:<span class="cov8" title="1">
+                err = attr.errInvalidEdgeAttribute()</span>
+        }
+        <span class="cov8" title="1">return err</span>
+}
+
+// Compare two EdgeAttribute
+//
+// @param edgeAttr pointer of EdgeAttribute
+//
+// @return nil if two EdgeAttribute are the equal, otherwise error
+func (attr *EdgeAttribute) CompareEdgeAttribute(edgeAttr *EdgeAttribute) error <span class="cov8" title="1">{
+        if edgeAttr == nil </span><span class="cov8" title="1">{
+                return attr.errInvalidEdgeAttribute()
+        }</span>
+        <span class="cov8" title="1">if attr.Name != edgeAttr.Name || attr.DataType != edgeAttr.DataType </span><span class="cov8" title="1">{
+                return attr.errNotMatchEdgeAttribute(edgeAttr)
+        }</span>
+        <span class="cov8" title="1">if attr.DataType == "attributes" </span><span class="cov8" title="1">{
+                if len(attr.Value.([]EdgeAttribute)) != len(edgeAttr.Value.([]EdgeAttribute)) </span><span class="cov0" title="0">{
+                        return attr.errNotMatchEdgeAttribute(edgeAttr)
+                }</span>
+                <span class="cov8" title="1">for _, attrList_attr := range attr.Value.([]EdgeAttribute) </span><span class="cov8" title="1">{
+                        exist := false
+                        for _, edgeAttrList_attr := range edgeAttr.Value.([]EdgeAttribute) </span><span class="cov8" title="1">{
+                                if attrList_attr.CompareEdgeAttribute(&amp;edgeAttrList_attr) != nil </span><span class="cov8" title="1">{
+                                        exist = true
+                                        break</span>
+                                }
+                        }
+                        <span class="cov8" title="1">if exist == false </span><span class="cov0" title="0">{
+                                return attr.errNotMatchEdgeAttribute(edgeAttr)
+                        }</span>
+                }
+        }<span class="cov8" title="1"> else if attr.Value != edgeAttr.Value </span><span class="cov8" title="1">{
+                return attr.errNotMatchEdgeAttribute(edgeAttr)
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">/*******************************************************************************
+ * Copyright 2017 Samsung Electronics All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *******************************************************************************/
+
+// formatter package provides Struct type and method of EdgeData
+package formatter
+
+import (
+        "errors"
+)
+
+// EdgeData has version and title of EdgeData and list of EdgeElement
+type EdgeData struct {
+        Version      string        `json:"version"`
+        DataTitle    string        `json:"dataTitle"`
+        EdgeElements []EdgeElement `json:"edgeElements"`
+}
+
+// create Error Messgae : "Invalid EdgeData - [DataTitle of EdgeData]"
+//
+// @return created Error
+func (data *EdgeData) errInvalidEdgeData() error <span class="cov8" title="1">{
+        return errors.New("Invalid EdgeData - " + data.DataTitle)
+}</span>
+
+// create Error Messgae : "[DataTitle of EdgeData] - [DataTitle of EdgeData] do not match"
+//
+// @param dataB pointer of EdgeData
+//
+// @return created Error
+func (dataA *EdgeData) errNotMatchEdgeData(dataB *EdgeData) error <span class="cov8" title="1">{
+        return errors.New(dataA.DataTitle + " - " + dataB.DataTitle + " do not match")
+}</span>
+
+// convert all the wrong type of value in EdgeData
+//
+// @return true if it is success to convert type of value, otherwise false
+func (data *EdgeData) ConvertToEdgeData() error <span class="cov8" title="1">{
+        if data.DataTitle == "" || data.Version == "" || data.EdgeElements == nil </span><span class="cov8" title="1">{
+                return data.errInvalidEdgeData()
+        }</span>
+        <span class="cov8" title="1">edgeElementList := data.EdgeElements
+        for i := range edgeElementList </span><span class="cov8" title="1">{
+                err := edgeElementList[i].ConvertToEdgeElement()
+                if err != nil </span><span class="cov8" title="1">{
+                        return err
+                }</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+// Compare two EdgeData
+//
+// @param edgeData pointer of EdgeData
+//
+// @return nil if two EdgeData are the equal, otherwise error
+func (data *EdgeData) CompareEdgeData(edgeData *EdgeData) error <span class="cov8" title="1">{
+        if edgeData == nil </span><span class="cov8" title="1">{
+                return data.errInvalidEdgeData()
+        }</span>
+        <span class="cov8" title="1">if edgeData.Version != data.Version || edgeData.DataTitle != data.DataTitle </span><span class="cov8" title="1">{
+                return data.errNotMatchEdgeData(edgeData)
+        }</span>
+        <span class="cov8" title="1">for _, edgeElement := range edgeData.EdgeElements </span><span class="cov8" title="1">{
+                exist := false
+                for _, elem := range data.EdgeElements </span><span class="cov8" title="1">{
+                        err := elem.CompareEdgeElement(&amp;edgeElement)
+                        if err == nil </span><span class="cov8" title="1">{
+                                exist = true
+                        }</span>
+                }
+                <span class="cov8" title="1">if exist == false </span><span class="cov0" title="0">{
+                        return data.errNotMatchEdgeData(edgeData)
+                }</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">/*******************************************************************************
+ * Copyright 2017 Samsung Electronics All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *******************************************************************************/
+
+// formatter package provides Struct type and method of EdgeElement
+package formatter
+
+import (
+        "errors"
+)
+
+// EdgeElement has title of EdgeElement and list of EdgeAttribute
+type EdgeElement struct {
+        ElementTitle   string          `json:"elementTitle"`
+        EdgeAttributes []EdgeAttribute `json:"edgeAttributes"`
+}
+
+// create Error Messgae : "Invalid EdgeElement - [name of EdgeElement]"
+//
+// @return created Error
+func (elem *EdgeElement) errInvalidEdgeElement() error <span class="cov8" title="1">{
+        return errors.New("Invalid EdgeElement - " + elem.ElementTitle)
+}</span>
+
+// create Error Messgae : "[name of EdgeElement] - [name of EdgeElement] do not match"
+//
+// @param elemB pointer of EdgeElement
+//
+// @return created Error
+func (elemA *EdgeElement) errNotMatchEdgeElement(elemB *EdgeElement) error <span class="cov8" title="1">{
+        return errors.New(elemA.ElementTitle + " - " + elemB.ElementTitle + " do not match")
+}</span>
+
+// convert all the wrong type of value in EdgeElement
+//
+// @return nil if it is success to convert type of value, otherwise error
+func (elem *EdgeElement) ConvertToEdgeElement() error <span class="cov8" title="1">{
+        if elem.ElementTitle == "" || elem.EdgeAttributes == nil </span><span class="cov8" title="1">{
+                return elem.errInvalidEdgeElement()
+        }</span>
+        <span class="cov8" title="1">edgeAttributeList := elem.EdgeAttributes
+        for i := range edgeAttributeList </span><span class="cov8" title="1">{
+                err := edgeAttributeList[i].ConvertToEdgeAttribute()
+                if err != nil </span><span class="cov8" title="1">{
+                        return err
+                }</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+// Compare two EdgeElement
+//
+// @param edgeElement pointer of EdgeElement
+//
+// @return nil if two EdgeElement are the equal, otherwise error
+func (elem *EdgeElement) CompareEdgeElement(edgeElement *EdgeElement) error <span class="cov8" title="1">{
+        if edgeElement == nil </span><span class="cov8" title="1">{
+                return elem.errInvalidEdgeElement()
+        }</span>
+        <span class="cov8" title="1">if edgeElement.ElementTitle != elem.ElementTitle || len(elem.EdgeAttributes) != len(edgeElement.EdgeAttributes) </span><span class="cov8" title="1">{
+                return elem.errNotMatchEdgeElement(edgeElement)
+        }</span>
+        <span class="cov8" title="1">for _, edgeAttribute := range edgeElement.EdgeAttributes </span><span class="cov8" title="1">{
+                exist := false
+                for _, attr := range elem.EdgeAttributes </span><span class="cov8" title="1">{
+                        if edgeAttribute.CompareEdgeAttribute(&amp;attr) == nil </span><span class="cov8" title="1">{
+                                exist = true
+                                break</span>
+                        }
+                }
+                <span class="cov8" title="1">if exist == false </span><span class="cov8" title="1">{
+                        return elem.errNotMatchEdgeElement(edgeElement)
+                }</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">/*******************************************************************************
+ * Copyright 2017 Samsung Electronics All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *******************************************************************************/
+
+// formatter package provides decode function for EdgeData, EdgeElement, EdgeAttribute
+package formatter
+
+import (
+        "encoding/json"
+        "errors"
+)
+
+var errJsonStringNull error = errors.New("jsonString is nil")
+
+// Decode JsonString To EdgeAttribute
+//
+// @param jsonString    Json String to be decoded
+// @param edgeAttribute result of decoding
+//
+// @return EdgeAttribute and nil if it is succeed to decode JsonString to EdgeAttribute, otherwise nil
+func DecodeJsonStringToEdgeAttribute(jsonString *string) (EdgeAttribute, error) <span class="cov8" title="1">{
+        var edgeAttribute EdgeAttribute
+        if jsonString == nil </span><span class="cov8" title="1">{
+                return edgeAttribute, errJsonStringNull
+        }</span>
+        <span class="cov8" title="1">err := json.Unmarshal([]byte(*jsonString), &amp;edgeAttribute)
+        if err == nil </span><span class="cov8" title="1">{
+                err = edgeAttribute.ConvertToEdgeAttribute()
+        }</span>
+        <span class="cov8" title="1">return edgeAttribute, err</span>
+}
+
+// Decode JsonString To EdgeElement
+//
+// @param jsonString  Json String to be decoded
+// @param edgeElement result of decoding
+//
+// @return EdgeElement and nil if it is succeed to decode JsonString to EdgeElement, otherwise error
+func DecodeJsonStringToEdgeElement(jsonString *string) (EdgeElement, error) <span class="cov8" title="1">{
+        var edgeElement EdgeElement
+        if jsonString == nil </span><span class="cov8" title="1">{
+                return edgeElement, errJsonStringNull
+        }</span>
+        <span class="cov8" title="1">err := json.Unmarshal([]byte(*jsonString), &amp;edgeElement)
+        if err == nil </span><span class="cov8" title="1">{
+                err = edgeElement.ConvertToEdgeElement()
+        }</span>
+        <span class="cov8" title="1">return edgeElement, err</span>
+}
+
+// Decode JsonString To EdgeData
+//
+// @param jsonString Json String to be decoded
+// @param edgeData   result of decoding
+//
+// @return EdgeData and nil if it is succeed to decode JsonString to EdgeData, otherwise error
+func DecodeJsonStringToEdgeData(jsonString *string) (EdgeData, error) <span class="cov8" title="1">{
+        var edgeData EdgeData
+        if jsonString == nil </span><span class="cov8" title="1">{
+                return edgeData, errJsonStringNull
+        }</span>
+        <span class="cov8" title="1">err := json.Unmarshal([]byte(*jsonString), &amp;edgeData)
+        if err == nil </span><span class="cov8" title="1">{
+                err = edgeData.ConvertToEdgeData()
+        }</span>
+        <span class="cov8" title="1">return edgeData, err</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">/*******************************************************************************
+ * Copyright 2017 Samsung Electronics All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *******************************************************************************/
+
+// formatter package provides encode function for EdgeData, EdgeElement, EdgeAttribute
+package formatter
+
+import (
+        "encoding/json"
+        "errors"
+)
+
+var errNil error = errors.New("nil pointer error")
+
+// Encode EdgeAttribute To JsonString
+//
+// @param edgeAttribute EdgeAttribute to be encoded
+// @param jsonString    result of encoding
+//
+// @return JsonString and nil if it is succeed to encode EdgeAttribute to JsonString, otherwise error
+func EncodeEdgeAttributeToJsonString(edgeAttribute *EdgeAttribute) (string, error) <span class="cov8" title="1">{
+        jsonString := ""
+        if edgeAttribute == nil </span><span class="cov8" title="1">{
+                return jsonString, errNil
+        }</span>
+        <span class="cov8" title="1">err := edgeAttribute.ConvertToEdgeAttribute()
+        if err == nil </span><span class="cov8" title="1">{
+                jsonBytes, err := json.Marshal(edgeAttribute)
+                if err == nil </span><span class="cov8" title="1">{
+                        jsonString = string(jsonBytes)
+                }</span>
+        }
+        <span class="cov8" title="1">return jsonString, err</span>
+}
+
+// Encode EdgeElement To JsonString
+//
+// @param edgeElement EdgeElement to be encoded
+// @param jsonString  result of encoding
+//
+// @return JsonString and nil if it is succeed to encode EdgeElement to JsonString, otherwise error
+func EncodeEdgeElementToJsonString(edgeElement *EdgeElement) (string, error) <span class="cov8" title="1">{
+        jsonString := ""
+        if edgeElement == nil </span><span class="cov8" title="1">{
+                return jsonString, errNil
+        }</span>
+        <span class="cov8" title="1">err := edgeElement.ConvertToEdgeElement()
+        if err == nil </span><span class="cov8" title="1">{
+                jsonBytes, err := json.Marshal(edgeElement)
+                if err == nil </span><span class="cov8" title="1">{
+                        jsonString = string(jsonBytes)
+                }</span>
+        }
+        <span class="cov8" title="1">return jsonString, err</span>
+}
+
+// Encode EdgeData To JsonString
+//
+// @param edgeData   EdgeData to be encoded
+// @param jsonString result of encoding
+//
+// @return JsonString and nil if it is succeed to encode EdgeData to JsonString, otherwise error
+func EncodeEdgeDataToJsonString(edgeData *EdgeData) (string, error) <span class="cov8" title="1">{
+        jsonString := ""
+        if edgeData == nil </span><span class="cov8" title="1">{
+                return jsonString, errNil
+        }</span>
+        <span class="cov8" title="1">err := edgeData.ConvertToEdgeData()
+        if err == nil </span><span class="cov8" title="1">{
+                jsonBytes, err := json.Marshal(edgeData)
+                if err == nil </span><span class="cov8" title="1">{
+                        jsonString = string(jsonBytes)
+                }</span>
+        }
+        <span class="cov8" title="1">return jsonString, err</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
