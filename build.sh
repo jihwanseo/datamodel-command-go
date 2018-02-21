@@ -16,6 +16,8 @@
 ###############################################################################
 
 #!/bin/bash
+echo "datamodel-command-go build start"
+
 export GOPATH=$PWD
 mkdir src
 cp -r formatter/ src/
@@ -23,3 +25,5 @@ cp -r formatter/ src/
 GOOS=linux go install "formatter"
 
 rm -rf src
+
+echo "build success"
