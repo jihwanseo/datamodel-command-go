@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright 2017 Samsung Electronics All Rights Reserved.
+# Copyright 2018 Samsung Electronics All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 ###############################################################################
 
 #!/bin/bash
+echo "datamodel-command-go build start"
+
 export GOPATH=$PWD
 mkdir src
 cp -r formatter/ src/
@@ -23,3 +25,5 @@ cp -r formatter/ src/
 GOOS=linux go install "formatter"
 
 rm -rf src
+
+echo "build success"
